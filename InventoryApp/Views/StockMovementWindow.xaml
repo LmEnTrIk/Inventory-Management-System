@@ -1,0 +1,50 @@
+<Window x:Class="InventoryApp.Views.StockMovementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Register Stock Movement" Width="460" Height="560" ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock Text="Stock Movement" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,4" />
+            <TextBlock Text="{Binding PartTitle}" Foreground="{StaticResource MutedTextBrush}"
+                       TextWrapping="Wrap" Margin="0,0,0,2" />
+            <TextBlock Margin="0,0,0,18">
+                <Run Text="Current stock:" Foreground="{StaticResource MutedTextBrush}" />
+                <Run Text="{Binding CurrentStock, Mode=OneWay}" FontWeight="SemiBold" />
+            </TextBlock>
+
+            <TextBlock Text="Movement type" Style="{StaticResource FieldLabel}" />
+            <ComboBox Margin="0,0,0,22" ItemsSource="{Binding MovementTypes}"
+                      SelectedItem="{Binding MovementType}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource MovementTypeNameConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBlock Text="Quantity *" Style="{StaticResource FieldLabel}" />
+            <TextBox Margin="0,0,0,4" Text="{Binding QuantityText, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Text="{Binding QuantityHint}" FontSize="11" TextWrapping="Wrap"
+                       Foreground="{StaticResource MutedTextBrush}" Margin="0,16,0,6" />
+            <TextBlock Text="{Binding ResultingStockText}" FontWeight="SemiBold" Margin="0,0,0,18" />
+
+            <TextBlock Text="Notes" Style="{StaticResource FieldLabel}" />
+            <TextBox Margin="0,0,0,22" MaxLength="255"
+                     Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBlock Style="{StaticResource ServerErrorText}" Text="{Binding ServerError}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Cancel" IsCancel="True" Command="{Binding CancelCommand}" />
+            <Button Content="Register" IsDefault="True" Style="{StaticResource AccentButton}" Margin="0"
+                    Command="{Binding SaveCommand}" />
+        </StackPanel>
+    </Grid>
+</Window>
